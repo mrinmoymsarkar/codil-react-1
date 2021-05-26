@@ -1,37 +1,27 @@
-import logo from './logo.svg';
+
 import './App.css';
 import React, { useState } from 'react';
-function App() {
-    // const [isActive, setActive] = useState(false);
+function App({m = 5}) {
+
     const [number, setNumber] = useState(1);
 
+    const array = Array.from({length: m}, (_, i) => i + 1)
 
     const toggleClass = (n) => {
-        // setActive(!isActive);
         setNumber(n);
     };
 
     return (
     <div className="App">
         <div className="tabs">
-            <button className={ (number ===1 ? 'btn-active': 'btn')}
-                    onClick={() => toggleClass(1)}
-                    disabled={number ===1 }
-           >
-                Section title 1
-            </button>
-            <button className={ (number ===2 ? 'btn-active': 'btn')}
-                    onClick={() => toggleClass(2)}
-                    disabled={number ===2 } >
-                Section title 2
-            </button>
-            <button className={ (number ===3 ? 'btn-active': 'btn')}
-                    onClick={() => toggleClass(3)}
-                    disabled={number ===3 }>
-                Section title 3
-            </button>
+            <Button
+                title = {number}
+                toggleClass = {toggleClass}
+                array={array}
+            />
+
             <div className="view">
-                <ComponentB title ={number} />
+                {array.length >0 && <ComponentB title={number}/>}
             </div>
         </div>
     </div>
@@ -41,6 +31,20 @@ function App() {
 export default App;
 
 const ComponentB = (prop) => (<h1>Content of section {prop.title}</h1>);
+
+
+const Button = ({title, toggleClass, array}) => (
+    <div>{
+        array && array.map((val) => <button key = {val} className={(title === val ? 'btn-active' : 'btn')}
+                                            onClick={() => toggleClass(val)}
+                                            disabled={title === val}
+            >
+                Section title {val}
+            </button>
+        )
+
+}</div>
+)
 
 
 
